@@ -18,10 +18,11 @@ jobs:
       with:
         java-version: 1.11
 
-    - name: Set up Gradle
+    - name: Set executable permissions on gradlew
+      run: chmod +x gradlew
+    - name: Setup Gradle
       uses: gradle/setup-gradle@v1
       with:
         gradle-version: 7.3.3
-
-    - name: Build with Gradle
+    - name: Build project
       run: ./gradlew build
