@@ -16,6 +16,13 @@
 # limitations under the License.
 #
 
+
+
+- name: Set executable permissions on gradlew
+  run: chmod +x gradlew
+- name: Build project
+  run: ./gradlew build
+
 ##############################################################################
 ##
 ##  Gradle start up script for UN*X
