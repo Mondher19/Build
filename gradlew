@@ -18,10 +18,6 @@
 
 
 
-- name: Set executable permissions on gradlew
-  run: chmod +x gradlew
-- name: Build project
-  run: ./gradlew build
 
 ##############################################################################
 ##
@@ -88,6 +84,11 @@ case "`uname`" in
 esac
 
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+
+- name: Set executable permissions on gradlew
+  run: chmod +x gradlew
+- name: Build project
+  run: ./gradlew build
 
 
 # Determine the Java command to use to start the JVM.
