@@ -53,9 +53,7 @@ jobs:
         
        #  increment version  
       - name: Build and increment version
-        run: |
-         ./gradlew version
-         ./gradlew build
+        run: ./gradlew app:version -Prelease.useAutomaticVersion=true
 
 
       # Create APK Debug
