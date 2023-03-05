@@ -37,12 +37,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-          
-      - name: Set up Gradle
-        uses: gradle/wrapper-action@v1.2.0
-
-      - name: Build and increment version
-        run: ./gradlew build version -Prelease.useAutomaticVersion=true
+        
 
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
@@ -54,6 +49,10 @@ jobs:
       # Run Build Project
       - name: Build gradle project
         run: ./gradlew build
+        
+       #  increment version  
+      - name: Build and increment version
+        run: ./gradlew build version -Prelease.useAutomaticVersion=true
 
       # Create APK Debug
       - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
