@@ -53,7 +53,8 @@ jobs:
         
        #  increment version  
       - name: Build and increment version
-        run: ./gradlew app:version -Prelease.useAutomaticVersion=true
+        run: ./gradlew -q app:properties | grep versionName | awk '{print $2}'
+
 
 
       # Create APK Debug
