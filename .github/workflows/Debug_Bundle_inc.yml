@@ -54,7 +54,7 @@ jobs:
        #  increment version  
       - name: Build and increment version
         run: ./gradlew -q app:properties | grep versionName | awk '{print $2}' 
-             ./gradlew app:version -Prelease.useAutomaticVersion=true
+       
          
 
 
