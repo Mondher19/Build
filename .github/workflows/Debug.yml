@@ -1,4 +1,3 @@
-
 name: Generated APK AAB (Upload)
 
 env:
@@ -13,17 +12,37 @@ on:
     branches:
       - '**' # Match all branches
 
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      last_workflow:
+        description: 'Trigger the last workflow or YAML file'
+        default: true
+        type: bool
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    needs: ${{ github.event.before }}
 
     steps:
-      - uses: actions/checkout@v2
+      # Use the GitHub API to fetch the last workflow run
+      - name: Get last workflow run
+        id: last_workflow
+        uses: andstor/actions-get-workflow-id@v1.1.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          workflow_file: 'main.yml'
+          status: completed
+          conclusion: success
+        if: ${{ github.event.inputs.last_workflow == true }}
+
+      # Checkout the last workflow commit
+      - name: Checkout last workflow commit
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ steps.last_workflow.outputs.commit_sha }}
+        if: ${{ github.event.inputs.last_workflow == true }}
 
       # Set Current Date As Env Variable
       - name: Set current date as env variable
@@ -53,7 +72,6 @@ jobs:
       - name: Build apk debug project (APK) - ${{ env.main_project_module }} module
         run: ./gradlew assembleDebug
 
-
       # Upload Artifact Build
       # Noted For Output [main_project_module]/build/outputs/apk/debug/
       - name: Upload APK Debug - ${{ env.repository_name }}
@@ -61,4 +79,3 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) debug generated
           path: ${{ env.main_project_module }}/build/outputs/apk/debug/
-
